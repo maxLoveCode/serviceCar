@@ -1,4 +1,4 @@
-package dto;
+package serviceCar.dto;
 
 public class Message {
 	private boolean success;// 成功标志

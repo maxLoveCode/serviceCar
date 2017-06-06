@@ -35,7 +35,7 @@ public class UserApi {
 		User user = userService.findUserByUsername(name);
 		if(user != null)
 		{
-			msg.put("user",user);
+			msg.put("data",user);
 			return ResponseEntity.ok(msg);
 		}
 		msg.put("msg","未找到该用户");

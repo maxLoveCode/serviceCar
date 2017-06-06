@@ -5,6 +5,13 @@ import javax.persistence.Table;
 
 @Table(name="sc_order")
 public class Order extends Base{
+	
+	public static final int PENDING = 1;
+	public static final int ACCEPTED = 2;
+	public static final int WORKING = 3;
+	public static final int INSPECTING = 4;
+	public static final int INSTPECTED = 5;
+	public static final int COMPLETED = 6;
 
 	@Column(name = "driver_id")
 	private Integer driverId;
@@ -16,6 +23,19 @@ public class Order extends Base{
 	private Double total;
 	private Double distance;
 	
+	private String dest;
+	private String reason;
+	
+	@Column(name = "order_status")
+	private Integer orderStatus;
+	
+	public Order(Integer orderId){
+		this.setId(orderId);
+	}
+	
+	public Order() {
+	}
+
 	public Integer getDriverId() {
 		return driverId;
 	}
@@ -51,5 +71,27 @@ public class Order extends Base{
 	}
 	public void setDistance(Double distance) {
 		this.distance = distance;
+	}
+	public Integer getOrderStatus() {
+		return orderStatus;
+	}
+	public void setOrderStatus(Integer orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
+	public String getDest() {
+		return dest;
+	}
+
+	public void setDest(String dest) {
+		this.dest = dest;
 	}
 }

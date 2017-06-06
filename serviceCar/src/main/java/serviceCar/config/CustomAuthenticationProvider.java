@@ -39,7 +39,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
         }
         else 
         	throw new BadCredentialsException("用户名错误");
-        
+                                                                                                                                                                                       
 	}
 
 	@Override
@@ -47,5 +47,4 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 		// TODO Auto-generated method stub
 		return true;
 	}
-	
 }

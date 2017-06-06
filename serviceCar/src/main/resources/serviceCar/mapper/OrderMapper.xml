@@ -6,9 +6,76 @@
 		
 	</resultMap>
 	
-	<select id= "getOrderList" resultMap ="Order">
+	<resultMap type="pojo.User" id="User">
+	  <id property="id" column="Driver_id"/>
+	  <result property="username" column="Driver_username"/>
+	  <result property="usertype" column="Driver_usertype"/>
+	  <result property="logintime" column="Driver_logintime"/>
+	  <result property="createtime" column="Driver_createtime"/>
+	</resultMap>
+	
+	<resultMap type="pojo.Department" id="Department">
+	  <id property="id" column="Department_id"/>
+	  <result property="name" column="Department_name"/>
+	</resultMap>
+	
+	<resultMap type="pojo.Car" id="Car">
+	  <id property="id" column="Car_id"/>
+	  <result property="carNumber" column="Car_name"/>
+	</resultMap>
+	
+	<resultMap type="hashmap" id="OrderMap">
+	 	<id property="id" column="Order_id"/>
+  		<result property="starttime" column="Order_starttime"/>
+  		<result property="endtime" column="Order_endtime"/>
+  		<result property="status" column="Order_status"/>
+  		<result property="reason" column="Order_reason"/>
+  		<result property="dest" column="Order_dest"/>
+  		<result property="statusName" column="Status_name"/>
+		<association property="driver"  resultMap ="User">
+		</association>
+		<association property="department"  resultMap ="Department">
+		</association>
+		<association property="car"  resultMap ="Car">
+		</association>
+	</resultMap>
+	
+	<select id= "getDepartmentList" resultMap = "Department">
+		SELECT  DEPART.id AS Department_id,
+		    DEPART.name AS Department_name  
+		    FROM sc_department DEPART 
+	</select>
+	
+	<select id= "getCarList" resultMap = "Car">
+		SELECT  Car.id AS Car_id,
+		    Car.car_number AS Car_carNumber  
+		    FROM sc_car Car 
+	</select>
+	
+	<select id= "getOrderList" resultMap ="OrderMap">
 		SELECT 
-		    *
+		    Driver.id AS Driver_id,
+		    Driver.createtime AS Driver_createtime,
+		    Driver.username AS Driver_username,
+		    Driver.usertype AS Driver_usertype,
+		    Driver.logintime AS Driver_logintime,
+		    Od.id AS Order_id,
+		    Od.unit_price AS Order_unit_price,
+		    Od.total AS Order_total,
+		    Od.distance AS Order_distance,
+		    Od.starttime AS Order_starttime,
+		    Od.endtime AS Order_endtime,
+		    Od.order_status AS Order_status,
+		    Od.createtime AS Order_createtime,
+		    Od.updatetime AS Order_updatetime,
+		    Od.dest AS Order_dest,
+		    Od.reason AS Order_reson,
+		    Od.updatetime AS Order_updatetime,
+		    DEPART.id AS Department_id,
+		    DEPART.name AS Department_name, 
+		    STATUS.name AS Status_name,
+		    CAR.car_number AS Car_name, 
+		    CAR.id AS Car_id  
 		FROM
 		    serviceCar.sc_order Od
 		        LEFT JOIN
@@ -17,10 +84,21 @@
 		    FROM
 		        sc_user
 		    WHERE
-		        usertype = 0) Driver ON Driver.id = Od.driver_id
-		WHERE
-		    driver_id = 1
+		        usertype = 1) Driver ON Driver.id = Od.driver_id 
+		        LEFT JOIN
+		    serviceCar.sc_department DEPART
+		     	ON 
+		    DEPART.id = Od.department_id 
+		    	LEFT JOIN
+		    serviceCar.sc_orderStatus STATUS 
+		    	ON
+		    Od.order_status = STATUS.id 
+		    	LEFT JOIN
+		    serviceCar.sc_car CAR 
+		    	ON
+		    Od.car_id = CAR.id 
 	</select>
 
+	
 	
 </mapper> 

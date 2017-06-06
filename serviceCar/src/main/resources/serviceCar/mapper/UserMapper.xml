@@ -9,6 +9,13 @@
 		limit 1
 	</select>
 	
+	<select id="getDriverList" resultType="hashmap">
+		select * from sc_user
+		<where>
+			usertype = 1
+		</where>
+	</select>
+	
 	<resultMap type="pojo.User" id="User">
 	</resultMap>
 </mapper>

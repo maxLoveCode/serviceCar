@@ -28,6 +28,7 @@
 	 	<id property="id" column="Order_id"/>
   		<result property="starttime" column="Order_starttime"/>
   		<result property="endtime" column="Order_endtime"/>
+  		<result property="createtime" column="Order_createtime"/>
   		<result property="status" column="Order_status"/>
   		<result property="reason" column="Order_reason"/>
   		<result property="dest" column="Order_dest"/>
@@ -48,7 +49,7 @@
 	
 	<select id= "getCarList" resultMap = "Car">
 		SELECT  Car.id AS Car_id,
-		    Car.car_number AS Car_carNumber  
+		    Car.car_number AS Car_name  
 		    FROM sc_car Car 
 	</select>
 	
@@ -69,7 +70,7 @@
 		    Od.createtime AS Order_createtime,
 		    Od.updatetime AS Order_updatetime,
 		    Od.dest AS Order_dest,
-		    Od.reason AS Order_reson,
+		    Od.reason AS Order_reason,
 		    Od.updatetime AS Order_updatetime,
 		    DEPART.id AS Department_id,
 		    DEPART.name AS Department_name, 

@@ -35,6 +35,7 @@ public class OrderApi {
 			@RequestBody Order order){
 		Map<String, Object> msg = new HashMap<String, Object>();
 		orderService.placeOrder(order);
+		msg.put("msg","成功");
 		return ResponseEntity.ok(msg);	
 	}
 	

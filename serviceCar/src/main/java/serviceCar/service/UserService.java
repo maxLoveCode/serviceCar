@@ -25,4 +25,16 @@ public class UserService extends BaseService<User>{
 	{
 		return userMapper.getDriverList();
 	}
+	
+
+	public List<HashMap<String, Object>> getDriverListWithUserType()
+	{
+		return userMapper.getDriverListWithUserType();
+	}
+	
+
+	public List<HashMap<String, Object>> getUserTypes()
+	{
+		return userMapper.getUserTypes();
+	}
 }

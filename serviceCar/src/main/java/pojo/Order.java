@@ -21,13 +21,19 @@ public class Order extends Base{
 	@Column(name = "unit_price")
 	private Double unitPrice;
 	private Double total;
-	private Double distance;
+	private Float distance;
 	
 	private String dest;
 	private String reason;
 	
 	@Column(name = "order_status")
 	private Integer orderStatus;
+
+	@Column(name = "department_id")
+	private Integer departmentId;
+
+	@Column(name = "car_id")
+	private Integer carId;
 	
 	public Order(Integer orderId){
 		this.setId(orderId);
@@ -66,12 +72,6 @@ public class Order extends Base{
 	public void setTotal(Double total) {
 		this.total = total;
 	}
-	public Double getDistance() {
-		return distance;
-	}
-	public void setDistance(Double distance) {
-		this.distance = distance;
-	}
 	public Integer getOrderStatus() {
 		return orderStatus;
 	}
@@ -93,5 +93,29 @@ public class Order extends Base{
 
 	public void setDest(String dest) {
 		this.dest = dest;
+	}
+
+	public Float getDistance() {
+		return distance;
+	}
+
+	public void setDistance(Float distance) {
+		this.distance = distance;
+	}
+
+	public Integer getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(Integer departmentId) {
+		this.departmentId = departmentId;
+	}
+
+	public Integer getCarId() {
+		return carId;
+	}
+
+	public void setCarId(Integer carId) {
+		this.carId = carId;
 	}
 }

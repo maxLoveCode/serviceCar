@@ -8,7 +8,6 @@ $(function(){
 	InitLeftMenu();
 	tabClose();
 	tabCloseEven();
-	getNotify();
 })
 
 //初始化左侧

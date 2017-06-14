@@ -33,6 +33,13 @@
   		<result property="reason" column="Order_reason"/>
   		<result property="dest" column="Order_dest"/>
   		<result property="statusName" column="Status_name"/>
+  		
+  		<result property="passcost" column="Order_passcost"/>
+  		<result property="parkcost" column="Order_parkcost"/>
+  		<result property="trafcost" column="Order_trafcost"/>
+  		<result property="extras" column="Order_extras"/>
+  		<result property="remark" column="Order_remark"/>
+  		
 		<association property="driver"  resultMap ="User">
 		</association>
 		<association property="department"  resultMap ="Department">
@@ -53,8 +60,22 @@
 		    FROM sc_car Car 
 	</select>
 	
-	<select id= "getOrderList" resultMap ="OrderMap">
+	<select id="selectOrderByKey" resultMap = "Order">
 		SELECT 
+		    *, Od.unit_price AS unitPrice, Od.department_id AS departmentId,
+		    Od.driver_id AS driverId, Od.car_id AS carId, 
+		     Od.order_status AS orderStatus, 
+		    (unit_price * distance + Od.passcost + Od.parkcost + Od.trafcost + Od.extras) AS total
+		FROM
+		    sc_order Od
+		    
+		   		<where>
+		   			Od.id = #{OrderId} 
+		   		</where>
+	</select>
+	
+	<select id= "getOrderList" resultMap ="OrderMap">
+	SELECT 
 		    Driver.id AS Driver_id,
 		    Driver.createtime AS Driver_createtime,
 		    Driver.username AS Driver_username,
@@ -62,7 +83,12 @@
 		    Driver.logintime AS Driver_logintime,
 		    Od.id AS Order_id,
 		    Od.unit_price AS Order_unit_price,
-		    Od.total AS Order_total,
+		    (unit_price*distance+Od.passcost+Od.parkcost+Od.trafcost+Od.extras) AS Order_total,
+		    Od.passcost AS  Order_passcost,
+		    Od.parkcost AS 	Order_parkcost,
+		    Od.trafcost AS Order_trafcost,
+		    Od.extras AS Order_extras,
+		    Od.remark AS Order_remark,
 		    Od.distance AS Order_distance,
 		    Od.starttime AS Order_starttime,
 		    Od.endtime AS Order_endtime,
@@ -98,8 +124,90 @@
 		    serviceCar.sc_car CAR 
 		    	ON
 		    Od.car_id = CAR.id 
+		   	<if test="orderStatus != null">
+		   		
+		   		<if test="orderStatus == 1">
+			   		<where>
+			   			Od.order_status = 1
+			   		</where>
+		   		</if>
+		   		
+		   		<if test="orderStatus == 2">
+			   		<where>
+			   			Od.order_status = 2 OR 
+			   			Od.order_status = 3 OR
+			   			Od.order_status = 4 OR
+			   			Od.order_status = 5 OR
+			   			Od.order_status = 7 OR
+			   			Od.order_status = 8    
+			   		</where>
+		   		</if>
+		   		
+		   		<if test="orderStatus == 3">
+			   		<where>
+			   			Od.order_status = 6
+			   		</where>
+		   		</if>
+		   			
+		   	</if>
 	</select>
 
-	
+	<select id= "getOrderDetail" resultMap ="OrderMap">
+		SELECT 
+		    Driver.id AS Driver_id,
+		    Driver.createtime AS Driver_createtime,
+		    Driver.username AS Driver_username,
+		    Driver.usertype AS Driver_usertype,
+		    Driver.logintime AS Driver_logintime,
+		    Od.id AS Order_id,
+		    Od.unit_price AS Order_unit_price,
+		    (unit_price*distance+Od.passcost+Od.parkcost+Od.trafcost+Od.extras) AS Order_total,
+		    Od.passcost AS  Order_passcost,
+		    Od.parkcost AS 	Order_parkcost,
+		    Od.trafcost AS Order_trafcost,
+		    Od.extras AS Order_extras,
+		    Od.distance AS Order_distance,
+		    Od.starttime AS Order_starttime,
+		    Od.endtime AS Order_endtime,
+		    Od.remark AS Order_remark,
+		    Od.order_status AS Order_status,
+		    Od.createtime AS Order_createtime,
+		    Od.updatetime AS Order_updatetime,
+		    Od.dest AS Order_dest,
+		    Od.reason AS Order_reason,
+		    Od.updatetime AS Order_updatetime,
+		    DEPART.id AS Department_id,
+		    DEPART.name AS Department_name, 
+		    STATUS.name AS Status_name,
+		    CAR.car_number AS Car_name, 
+		    CAR.id AS Car_id  
+		FROM
+		    serviceCar.sc_order Od
+		        LEFT JOIN
+		    (SELECT 
+		        *
+		    FROM
+		        sc_user
+		    WHERE
+		        usertype = 1) Driver ON Driver.id = Od.driver_id 
+		        LEFT JOIN
+		    serviceCar.sc_department DEPART
+		     	ON 
+		    DEPART.id = Od.department_id 
+		    	LEFT JOIN
+		    serviceCar.sc_orderStatus STATUS 
+		    	ON
+		    Od.order_status = STATUS.id 
+		    	LEFT JOIN
+		    serviceCar.sc_car CAR 
+		    	ON
+		    Od.car_id = CAR.id 
+		   	<if test="OrderId != null">
+		   		<where>
+		   			Od.id = #{OrderId} 
+		   		</where>
+		   			limit 1
+		   	</if>
+	</select>
 	
 </mapper> 

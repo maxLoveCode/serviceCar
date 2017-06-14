@@ -33,9 +33,9 @@ public class WebAppConfig extends WebMvcConfigurerAdapter implements WebSocketCo
 		registry.addInterceptor(new TokenInterceptor()).addPathPatterns(tokenCheckUrl)
 				.excludePathPatterns(tokenNotCheckUrl);
 
-		// session验证拦截器
-		registry.addInterceptor(new SessionInterceptor()).addPathPatterns(sessionCheckUrl)
-				.excludePathPatterns(tokenCheckUrl).excludePathPatterns(sessionNotCheckUrl);
+//		// session验证拦截器
+//		registry.addInterceptor(new SessionInterceptor()).addPathPatterns(sessionCheckUrl)
+//				.excludePathPatterns(tokenCheckUrl).excludePathPatterns(sessionNotCheckUrl);
 	}
 
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {

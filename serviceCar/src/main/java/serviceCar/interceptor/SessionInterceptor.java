@@ -17,6 +17,7 @@ public class SessionInterceptor implements HandlerInterceptor {
 			return true;
 		} else {
 			response.sendRedirect(request.getContextPath() + "/login");
+			System.out.println("======REDIRECT======");
 			return false;
 		}
 	}

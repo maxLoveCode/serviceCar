@@ -5,6 +5,7 @@ import java.util.List;
 import serviceCar.config.MyMapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import pojo.Car;
 import pojo.Department;
@@ -15,9 +16,13 @@ public interface OrderMapper extends MyMapper<Order>{
 
 	public Integer placeOrder(Order order);
 	
-	public List<HashMap<String, Object>> getOrderList();
+	public List<HashMap<String, Object>> getOrderList(@Param("orderStatus")Integer orderStatus);
+	
+	public HashMap<String, Object> getOrderDetail(@Param("OrderId")Integer OrderId);
 	
 	public List<Department> getDepartmentList();
 
 	public List<Car> getCarList();
+	
+	public Order selectOrderByKey(@Param("OrderId")Integer OrderId);
 }

@@ -3,6 +3,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Table(name="sc_order")
 public class Order extends Base{
 	
@@ -12,15 +14,27 @@ public class Order extends Base{
 	public static final int INSPECTING = 4;
 	public static final int INSTPECTED = 5;
 	public static final int COMPLETED = 6;
+	public static final int REJECTED = 7;
+	public static final int MODIFIED = 8;
 
 	@Column(name = "driver_id")
 	private Integer driverId;
+	
+
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm")
 	private Date starttime;
+    
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm")
 	private Date endtime;
 
 	@Column(name = "unit_price")
 	private Double unitPrice;
 	private Double total;
+	private Double passcost;
+	private Double parkcost;
+	private Double trafcost;
+	private Double extras;
+	
 	private Float distance;
 	
 	private String dest;
@@ -34,6 +48,9 @@ public class Order extends Base{
 
 	@Column(name = "car_id")
 	private Integer carId;
+	
+	private String remark;
+	
 	
 	public Order(Integer orderId){
 		this.setId(orderId);
@@ -117,5 +134,45 @@ public class Order extends Base{
 
 	public void setCarId(Integer carId) {
 		this.carId = carId;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public Double getPasscost() {
+		return passcost;
+	}
+
+	public void setPasscost(Double passcost) {
+		this.passcost = passcost;
+	}
+
+	public Double getParkcost() {
+		return parkcost;
+	}
+
+	public void setParkcost(Double parkcost) {
+		this.parkcost = parkcost;
+	}
+
+	public Double getTrafcost() {
+		return trafcost;
+	}
+
+	public void setTrafcost(Double trafcost) {
+		this.trafcost = trafcost;
+	}
+
+	public Double getExtras() {
+		return extras;
+	}
+
+	public void setExtras(Double extras) {
+		this.extras = extras;
 	}
 }

@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import serviceCar.service.OrderService;
+import serviceCar.service.JpushService;
+import serviceCar.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
 import serviceCar.dto.ExtraInfoModel;
 import pojo.Order;
+import pojo.User;
 
 @RestController("OrderApi")
 @RequestMapping("/v1_0")
@@ -26,12 +29,32 @@ public class OrderApi {
 	@Autowired
 	OrderService orderService;
 	
+	@Autowired
+	JpushService pushService;
+	
+	@Autowired
+	UserService userService;
+	
 	@ApiOperation(value = "创建订单", notes = "创建订单")
 	@RequestMapping(value = "/placeOrder", method = RequestMethod.POST)
 	public ResponseEntity<Map<String,Object>> placeOrder(@RequestParam String access_token,
-			@RequestBody Order order){
+			@RequestBody Order order,
+			Principal principal){
 		Map<String, Object> msg = new HashMap<String, Object>();
+		String acc = principal.getName();
+		User user = userService.findUserByUsername(acc);
+		
+		if(user!=null)
+		{
+			order.setOwnerId(user.getId());
+		}
+		
 		orderService.placeOrder(order);
+		
+		Map<String, String> extra = new HashMap<String, String>();
+		String content = "您被安排了订单，目的地：" +order.getDest();
+		pushService.notifyWithExtra(order.getDriverId(), "您被安排了一个新订单，点击查看", content, extra);
+		
 		msg.put("msg","成功");
 		return ResponseEntity.ok(msg);	
 	}
@@ -70,6 +93,11 @@ public class OrderApi {
 		}
 		if(orderService.acceptOrder(order))
 		{
+			Map<String, String> extra = new HashMap<String, String>();
+			String content = "司机接受订单，目的地：" +order.getDest();
+			System.out.println("OwnerId ="+order.getOwnerId());
+			pushService.notifyWithExtra(order.getOwnerId(), "司机接受订单", content, extra);
+			
 			msg.put("msg","成功");
 			return ResponseEntity.ok(msg);	
 		}
@@ -94,6 +122,10 @@ public class OrderApi {
 		}
 		if(orderService.startWorking(order))
 		{
+			Map<String, String> extra = new HashMap<String, String>();
+			String content = "司机接受订单，目的地：" +order.getDest();
+			pushService.notifyWithExtra(order.getOwnerId(), "司机接受订单", content, extra);
+			
 			msg.put("msg","成功");
 			return ResponseEntity.ok(msg);	
 		}
@@ -127,6 +159,10 @@ public class OrderApi {
 		
 		if(orderService.pendingForInspection(order))
 		{
+			Map<String, String> extra = new HashMap<String, String>();
+			String content = "司机完成订单，目的地：" +order.getDest();
+			pushService.notifyWithExtra(order.getOwnerId(), "司机完成订单", content, extra);
+			
 			msg.put("msg","成功");
 			return ResponseEntity.ok(msg);	
 		}
@@ -151,6 +187,10 @@ public class OrderApi {
 		}
 		if(orderService.completeInspection(order))
 		{
+			Map<String, String> extra = new HashMap<String, String>();
+			String content = "订单审核通过，目的地：" +order.getDest();
+			pushService.notifyWithExtra(order.getDriverId(), "订单审核通过", content, extra);
+			
 			msg.put("msg","成功");
 			return ResponseEntity.ok(msg);	
 		}
@@ -208,6 +248,10 @@ public class OrderApi {
 		
 		if(orderService.modifyOrder(order))
 		{
+			Map<String, String> extra = new HashMap<String, String>();
+			String content = "司机订单报告已修改，目的地：" +order.getDest();
+			pushService.notifyWithExtra(order.getOwnerId(), "司机订单报告已修改", content, extra);
+			
 			msg.put("msg","成功");
 			return ResponseEntity.ok(msg);	
 		}

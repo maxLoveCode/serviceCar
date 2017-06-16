@@ -38,7 +38,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
 		        .antMatchers("/common/**")
 		        .antMatchers("/company/**")
 		        .antMatchers("/constTeam/**")
-		        .antMatchers("/driver/**")
+		        .antMatchers("/department/**")
 		        .antMatchers("/order/**")
 		        .antMatchers("/role/**")
 		        .antMatchers("/route/**");

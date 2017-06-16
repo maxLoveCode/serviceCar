@@ -57,7 +57,7 @@
 								"menuname" : "部门管理",
 								"icon" : "icon-nav",
 								"url" : "${pageContext.request.contextPath}"
-										+ "/driver/index"
+										+ "/department/index"
 							}]
 				},
 				{

@@ -62,7 +62,7 @@
 	
 	<select id="selectOrderByKey" resultMap = "Order">
 		SELECT 
-		    *, Od.unit_price AS unitPrice, Od.department_id AS departmentId,
+		    *,Od.owner_id AS ownerId, Od.unit_price AS unitPrice, Od.department_id AS departmentId,
 		    Od.driver_id AS driverId, Od.car_id AS carId, 
 		     Od.order_status AS orderStatus, 
 		    (unit_price * distance + Od.passcost + Od.parkcost + Od.trafcost + Od.extras) AS total

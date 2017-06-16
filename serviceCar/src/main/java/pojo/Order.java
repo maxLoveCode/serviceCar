@@ -20,6 +20,8 @@ public class Order extends Base{
 	@Column(name = "driver_id")
 	private Integer driverId;
 	
+	@Column(name = "owner_id")
+	private Integer ownerId;
 
     @JsonFormat(pattern="yyyy/MM/dd HH:mm")
 	private Date starttime;
@@ -174,5 +176,13 @@ public class Order extends Base{
 
 	public void setExtras(Double extras) {
 		this.extras = extras;
+	}
+
+	public Integer getOwnerId() {
+		return ownerId;
+	}
+
+	public void setOwnerId(Integer ownerId) {
+		this.ownerId = ownerId;
 	}
 }

@@ -19,6 +19,7 @@ public class OrderService extends BaseService<Order> {
 
 	public Integer placeOrder(Order order)
 	{
+		//properties initialization
 		order.setOrderStatus(1);
 		order.setUnitPrice(3.0);
 		return this.insertSelective(order);

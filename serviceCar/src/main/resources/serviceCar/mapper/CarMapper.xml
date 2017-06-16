@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="serviceCar.mapper.CarMapper">
+	<resultMap type="pojo.Car" id="Car">
+  		<result property="carNumber" column="car_number"/>
+	</resultMap>
+	
+	<select id = "showList" resultMap = "Car">
+		SELECT * from sc_car car 
+			<where>
+				<if test="keywords != null">
+        (car_number like concat('%', #{keywords}, '%'))
+     			 </if>
+			</where>
+	</select>
+</mapper> 

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="serviceCar.mapper.DepartmentMapper">
+	<resultMap type="pojo.Department" id="Department">
+	</resultMap>
+	
+	<select id = "showList" resultMap = "Department">
+		SELECT * from sc_department department 
+			<where>
+				<if test="keywords != null">
+        (name like concat('%', #{keywords}, '%'))
+     			 </if>
+			</where>
+	</select>
+</mapper> 

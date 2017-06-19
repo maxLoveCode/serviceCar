@@ -4,6 +4,7 @@
 
 
 	<resultMap type="pojo.User" id="User"></resultMap>
+	<resultMap type="pojo.Notify" id="Notify"></resultMap>
 	
 	<resultMap type="hashmap" id="UserType"></resultMap>
 	
@@ -47,6 +48,13 @@
 		select * from sc_user
 		<where>
 			usertype = 1
+		</where>
+	</select>
+	
+	<select id="getNotify" resultMap="Notify">
+		select * from sc_notify
+		<where>
+			rec_id = #{userId}
 		</where>
 	</select>
 	

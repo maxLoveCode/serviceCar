@@ -31,7 +31,11 @@
   		<result property="createtime" column="Order_createtime"/>
   		<result property="status" column="Order_status"/>
   		<result property="reason" column="Order_reason"/>
+  		<result property="unitPrice" column="Order_unit_price"/>
   		<result property="dest" column="Order_dest"/>
+  		<result property="distance" column="Order_distance"/>
+  		<result property="total" column="Order_total"/>
+  		
   		<result property="statusName" column="Status_name"/>
   		
   		<result property="passcost" column="Order_passcost"/>

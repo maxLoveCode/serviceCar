@@ -37,4 +37,9 @@ public class UserService extends BaseService<User>{
 	{
 		return userMapper.getUserTypes();
 	}
+	
+	public int changePassword(User user)
+	{
+		return userMapper.updateByPrimaryKeySelective(user);
+	}
 }

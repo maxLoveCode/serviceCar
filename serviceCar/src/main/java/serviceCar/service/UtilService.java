@@ -7,13 +7,18 @@ import org.springframework.stereotype.Service;
 
 import pojo.Car;
 import pojo.Department;
+import pojo.Notify;
 import pojo.User;
 import serviceCar.mapper.OrderMapper;
+import serviceCar.mapper.UserMapper;
 
 @Service
 public class UtilService {
 	@Autowired
 	OrderMapper orderMapper;
+	
+	@Autowired
+	UserMapper userMapper;
 	
 	public List<Department> getDepartmentList()
 	{
@@ -23,5 +28,10 @@ public class UtilService {
 	public List<Car> getCarList()
 	{
 		return orderMapper.getCarList();
+	}
+	
+	public List<Notify> getNotify(Integer userId)
+	{
+		return userMapper.getNotify(userId);
 	}
 }

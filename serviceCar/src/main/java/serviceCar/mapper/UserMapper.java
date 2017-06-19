@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import pojo.Notify;
 import pojo.User;
 import serviceCar.config.MyMapper;
 
@@ -18,4 +19,6 @@ public interface UserMapper extends MyMapper<User> {
 	public List<HashMap<String, Object>> getDriverListWithUserType();
 	
 	public List<HashMap<String, Object>> getUserTypes();
+
+	public List<Notify> getNotify(Integer userId);
 }

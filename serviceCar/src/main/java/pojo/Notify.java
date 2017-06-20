@@ -9,6 +9,8 @@ public class Notify extends Base{
 
 	@Column(name = "rec_id")
 	private Integer recId;
+	
+	private String title;
 
 	public String getContent() {
 		return content;
@@ -24,5 +26,13 @@ public class Notify extends Base{
 
 	public void setRecId(Integer recId) {
 		this.recId = recId;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 }

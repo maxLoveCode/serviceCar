@@ -68,6 +68,12 @@ public class IndexController extends BaseController {
 			return "login";
 		}
 		User admin = userService.findUserByUsername(username);
+		if (admin.getUsertype() != User.FINANCE && admin.getUsertype()!= User.SECRETARY)
+		{
+			model.addAttribute("error", "用户名不存在");
+			return "login";
+		}
+		
 		if (StringUtils.isEmpty(admin)) {
 			model.addAttribute("error", "用户名不存在");
 			return "login";

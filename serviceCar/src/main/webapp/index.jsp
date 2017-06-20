@@ -67,16 +67,16 @@
 					"menus" : [
 							{
 								"menuid" : "102",
-								"menuname" : "订单列表",
+								"menuname" : "全部订单",
 								"icon" : "icon-nav",
 								"url" : "${pageContext.request.contextPath}"
 										+ "/order/index"
 							},
 							{
-								"menuname" : "历史订单",
+								"menuname" : "待审核订单",
 								"icon" : "icon-nav",
 								"url" : "${pageContext.request.contextPath}"
-										+ "/order/historyList"
+										+ "/order/reviewIndex"
 							}
 							 ]
 				} ]

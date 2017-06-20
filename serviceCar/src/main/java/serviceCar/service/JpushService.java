@@ -1,8 +1,10 @@
 package serviceCar.service;
 
+import java.util.Date;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.jiguang.common.resp.APIConnectionException;
@@ -16,10 +18,15 @@ import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.AndroidNotification;
 import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
-
+import pojo.Notify;
 
 @Service("jpushService")
 public class JpushService {
+	
+
+	@Autowired
+	UtilService utilService;
+	
 	private final static String MasterSecret = "9b9607f09bddf86cbf41e6f4";
 	private final static String APPKey = "3a738760955e1a3bfe047f66";
 	public JPushClient jPushClient = null;
@@ -99,6 +106,12 @@ public class JpushService {
                  .setMessage(Message.content(content))
                  .build();
 		try {
+			Notify notify = new Notify();
+			notify.setCreatetime(new Date());
+			notify.setRecId(userId);
+			notify.setTitle(message);
+			notify.setContent(content);
+			utilService.insertNotify(notify);
 			PushResult result = jPushClient.sendPush(payload);
 			logger.info(TAG + result);
 		} catch (APIConnectionException e) {

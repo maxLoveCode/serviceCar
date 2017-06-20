@@ -34,4 +34,10 @@ public class UtilService {
 	{
 		return userMapper.getNotify(userId);
 	}
+	
+
+	public Integer insertNotify(Notify notify)
+	{
+		return userMapper.insertNotify(notify);
+	}
 }

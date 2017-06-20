@@ -144,7 +144,7 @@
 			   			Od.order_status = 5 OR
 			   			Od.order_status = 7 OR
 			   			Od.order_status = 8    
-			   		</where>
+			   		</where>                                                                           
 		   		</if>
 		   		
 		   		<if test="orderStatus == 3">
@@ -152,7 +152,14 @@
 			   			Od.order_status = 6
 			   		</where>
 		   		</if>
-		   			
+		   		
+		   		<!-- 后台行政处待审核 -->
+		   		<if test="orderStatus == 5">
+			   		<where>
+			   			Od.order_status = 5
+			   		</where>
+		   		</if>
+		   		
 		   	</if>
 	</select>
 

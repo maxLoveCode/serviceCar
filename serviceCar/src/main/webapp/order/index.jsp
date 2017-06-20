@@ -9,54 +9,10 @@
 </table>
 <!-- 工具栏 -->
 <div id="tb">
-   <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="$('#dlg-add').dialog('open')">新增</a>
-   <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="edit()">编辑</a>
    <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
    <input class="easyui-searchbox" searcher="search" prompt="请输入关键字" name="keywords">
 </div>
-<!-- 增加对话框 -->
-<div id="dlg-add" class="easyui-dialog" title="新增用户" style="width: 400px; height: 280px; padding: 10px 20px" closed="true" buttons="#dlg-add-buttons">
-   <div class="ftitle">用户信息</div>
-   <form id="fm-add" style="margin:0; padding:10px 30px;" method="post" novalidate>
-      <div class="fitem">
-         <label>手机号:</label>
-         <input name="username" class="easyui-validatebox" required="true">
-      </div>
-      <div class="fitem">
-         <label>密码:</label>
-         <input name="password" class="easyui-validatebox" required="true">
-      </div>
-      <div class="fitem">
-         <label>昵称:</label>
-         <input name="nickname">
-      </div>
-   </form>
-</div>
-<!-- 增加保存按钮 -->
-<div id="dlg-add-buttons">
-   <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="insert()">保存</a>
-   <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-add').dialog('close')">取消</a>
-</div>
-<!-- 编辑对话框 -->
-<div id="dlg-edit" class="easyui-dialog" title="编辑用户" style="width: 400px; height: 280px; padding: 10px 20px" closed="true" buttons="#dlg-edit-buttons">
-   <div class="ftitle">用户信息</div>
-   <form id="fm-edit" style="margin:0; padding:10px 30px;" method="post" novalidate>
-      <div class="fitem">
-         <label>手机号:</label>
-         <input name="id" type="hidden">
-         <input name="username" class="easyui-validatebox" required="true">
-      </div>
-      <div class="fitem">
-         <label>昵称:</label>
-         <input name="nickname">
-      </div>
-   </form>
-</div>
-<!-- 编辑保存按钮 -->
-<div id="dlg-edit-buttons">
-   <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="update()">保存</a>
-   <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-edit').dialog('close')">取消</a>
-</div>
+
 <!-- 引入尾 -->
 <%@ include file="/common/footer.jsp" %>
 <script type="text/javascript">
@@ -132,7 +88,6 @@
                                     title: '部门名',
                                     width: 100,
                                     formatter:function(value,row){
-                                    	console.log(row.driver);
                                     	return row.department.name;
                                     }
                                 }, {
@@ -159,7 +114,6 @@
                                     title: '车辆id',
                                     width: 50,
                                     formatter:function(value,row){
-                                    	console.log(row.driver);
                                     	return row.car.id;
                                     }
                                 }, {
@@ -167,7 +121,6 @@
                                     title: '车牌号',
                                     width: 100,
                                     formatter:function(value,row){
-                                    	console.log(row.driver);
                                     	return row.car.carNumber;
                                     }
                                 },
@@ -212,56 +165,8 @@
     function search(value,name){
      $('#dg').datagrid('reload',{'keywords':value});
     }
-    //新增用户
-    function insert() {
-      $('#fm-add').form('submit', {
-        url : "${pageContext.request.contextPath}"+'/admin/add',
-        onSubmit : function() {
-          return $(this).form('validate');
-        },
-        success : function(result) {
-          var result = eval('(' + result + ')');
-          if (result.success) {
-            $('#dlg-add').dialog('close'); // close the dialog
-            $('#dg').datagrid('reload'); // reload the user data
-          } else {
-            $.messager.show({
-              title : '错误',
-              msg : result.msg
-            });
-          }
-        }
-      });
-    }
-    //编辑
-    function edit(){
-     var row = $('#dg').datagrid('getSelected');
-     if(row) {
-   	  $('#dlg-edit').dialog('open');
-   	  $('#fm-edit').form('load',row);
-     }
-    }
-    //更新用户
-    function update(){
-     $('#fm-edit').form('submit', {
-         url : "${pageContext.request.contextPath}"+'/admin/update',
-         onSubmit : function() {
-           return $(this).form('validate');
-         },
-         success : function(result) {
-           var result = eval('(' + result + ')');
-           if (result.success) {
-             $('#dlg-edit').dialog('close'); // close the dialog
-             $('#dg').datagrid('reload'); // reload the user data
-           } else {
-             $.messager.show({
-               title : '错误',
-               msg : result.msg
-             });
-           }
-         }
-       });
-    }
+ 
+
     //删除用户
     function remove() {
       var row = $('#dg').datagrid('getSelected');
@@ -304,30 +209,4 @@
    	    }
    	});
    	
-   	var passwordResetUrl =  "${pageContext.request.contextPath}"+'/admin/resetPassword';
-   		
-   function resetPassword() {
-   $('#password-fm').form('submit', {
-   url : passwordResetUrl,
-   onSubmit : function() {
-   	$('#userId').val($('#dg').datagrid('getSelected').id);
-   	return $(this).form('validate');
-   },
-   success : function(result) {
-   	var result = eval('(' + result + ')');
-   	if (result.success) {
-   		$.messager.show({
-   			title : "成功",
-   			msg : "修改成功"
-   		});
-   		$('#password-reset').dialog('close');
-   	} else {
-   		$.messager.show({
-   			title : "失败",
-   			msg : result.msg
-   		});
-   	}
-   }
-   });
-   }
 </script>

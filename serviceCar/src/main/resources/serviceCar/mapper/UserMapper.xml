@@ -58,4 +58,13 @@
 		</where>
 	</select>
 	
+	<insert
+	  id="insertNotify"
+	  parameterType="pojo.Notify"
+	  flushCache="true"
+	  statementType="PREPARED"
+	  timeout="20">
+	  insert into sc_notify (createtime,updatetime,title,content,rec_id)
+	  values(#{createtime},#{updatetime},#{title},#{content},#{recId})
+  	</insert>
 </mapper>

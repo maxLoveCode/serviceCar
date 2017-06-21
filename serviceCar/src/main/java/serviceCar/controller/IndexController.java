@@ -89,6 +89,7 @@ public class IndexController extends BaseController {
 
 		session.setAttribute(SESSION_ID, session.getId());
 		session.setAttribute(SESSION_NAME, admin);
+		session.setAttribute(SESSION_TYPE, admin.getUsertype());
 		session.setAttribute(WEBSOCKET_USERNAME, String.valueOf(admin.getId()));
 		return "index";
 	}

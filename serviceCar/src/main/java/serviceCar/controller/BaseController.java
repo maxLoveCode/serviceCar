@@ -6,6 +6,7 @@ public class BaseController {
 
 	public static final String SESSION_ID = "session_id";
 	public static final String SESSION_NAME = "admin";
+	public static final String SESSION_TYPE = "session_type";
 	public static final String WEBSOCKET_USERNAME = "websocket_username";
 
 	protected Message successMessage() {

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,6 +49,32 @@ public class OrderController extends BaseController{
 	public Map<String,Object> list(BaseCondition condition) {
 		Page<User> pager = PageHelper.startPage(condition.getPage(), condition.getRows());// 分页类
 		List<HashMap<String, Object>> list = orderService.getOrderList(null);
+		Map<String,Object> result = new HashMap<String, Object>();
+		result.put("total", pager.getTotal());
+		result.put("rows", list);
+		return result;
+	}
+	
+	/**
+	 * 获得列表数据
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/reviewList")
+	public Map<String,Object> reviewList(BaseCondition condition, HttpSession session) {
+		Page<User> pager = PageHelper.startPage(condition.getPage(), condition.getRows());// 分页类
+		Integer userType = (Integer) session.getAttribute(SESSION_TYPE);
+		List<HashMap<String, Object>> list = null;
+		if(userType == User.SECRETARY)
+		{
+			list = orderService.getOrderList(5);
+		}
+		else
+		{
+			
+		}
 		Map<String,Object> result = new HashMap<String, Object>();
 		result.put("total", pager.getTotal());
 		result.put("rows", list);

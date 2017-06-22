@@ -66,6 +66,7 @@ public class OrderController extends BaseController{
 	public Map<String,Object> reviewList(BaseCondition condition, HttpSession session) {
 		Page<User> pager = PageHelper.startPage(condition.getPage(), condition.getRows());// 分页类
 		Integer userType = (Integer) session.getAttribute(SESSION_TYPE);
+		System.out.println("userType"+userType);
 		List<HashMap<String, Object>> list = null;
 		if(userType == User.SECRETARY)
 		{
@@ -73,7 +74,7 @@ public class OrderController extends BaseController{
 		}
 		else
 		{
-			
+			list = orderService.getOrderList(3);
 		}
 		Map<String,Object> result = new HashMap<String, Object>();
 		result.put("total", pager.getTotal());

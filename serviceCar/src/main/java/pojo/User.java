@@ -10,6 +10,7 @@ public class User extends Base {
 	public static final Integer DRIVER = 1;
 	public static final Integer SECRETARY = 2;
 	public static final Integer FINANCE = 3;
+	public static final Integer MANAGEMENT = 4;
 
 	private String username;
 	private String password;

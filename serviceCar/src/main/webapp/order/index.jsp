@@ -80,7 +80,6 @@
                                     title: '部门id',
                                     width: 50,
                                     formatter:function(value,row){
-                                    	console.log(row.driver);
                                     	return row.department.id;
                                     }
                                 }, {
@@ -99,7 +98,6 @@
                                     title: '司机id',
                                     width: 50,
                                     formatter:function(value,row){
-                                    	console.log(row.driver);
                                     	return row.driver.id;
                                     }
                                 }, {

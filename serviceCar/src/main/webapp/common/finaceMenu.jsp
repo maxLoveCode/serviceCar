@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-var _menus = {
+_menus = {
 		"menus" : [
 				{
 					"menuid" : "1",
@@ -44,7 +44,7 @@ var _menus = {
 								"menuname" : "已完成订单",
 								"icon" : "icon-nav",
 								"url" : "${pageContext.request.contextPath}"
-										+ "/order/index"
+										+ "/order/reviewIndex"
 							}
 							 ]
 				} ]

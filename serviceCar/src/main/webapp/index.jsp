@@ -26,8 +26,16 @@
 	
 </script>
 <script type="text/javascript">
-//	  <%@ include file="/common/secretMenu.jsp" %>
-	  <%@ include file="/common/finaceMenu.jsp" %>
+	  var _menus;
+	  		console.log(${admin.usertype});
+	  		if(${admin.usertype} == 3)
+	  		{
+	  			<%@ include file="/common/finaceMenu.jsp" %>
+	  		}
+	  		else
+	  		{
+	  			<%@ include file="/common/secretMenu.jsp" %>
+	  		}
 	
 	//设置登陆窗口
 	function openPwd() {

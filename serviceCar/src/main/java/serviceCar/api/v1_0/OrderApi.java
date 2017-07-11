@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import serviceCar.service.OrderService;
+import serviceCar.service.CarService;
+import serviceCar.service.GPSService;
 import serviceCar.service.JpushService;
 import serviceCar.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
 import serviceCar.dto.ExtraInfoModel;
+import pojo.Car;
 import pojo.Order;
 import pojo.User;
 
@@ -34,6 +37,9 @@ public class OrderApi {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	CarService carService;
 	
 	@ApiOperation(value = "创建订单", notes = "创建订单")
 	@RequestMapping(value = "/placeOrder", method = RequestMethod.POST)
@@ -123,8 +129,8 @@ public class OrderApi {
 		if(orderService.startWorking(order))
 		{
 			Map<String, String> extra = new HashMap<String, String>();
-			String content = "司机接受订单，目的地：" +order.getDest();
-			pushService.notifyWithExtra(order.getOwnerId(), "司机接受订单", content, extra);
+			String content = "司机开始订单，目的地：" +order.getDest();
+			pushService.notifyWithExtra(order.getOwnerId(), "司机开始订单", content, extra);
 			
 			msg.put("msg","成功");
 			return ResponseEntity.ok(msg);	
@@ -141,14 +147,16 @@ public class OrderApi {
 	public ResponseEntity<Map<String,Object>> pendingForInspection(@RequestParam String access_token,
 			@RequestBody ExtraInfoModel info,
 			@RequestParam Integer orderId,
-			Principal principal){
+			Principal principal) throws Exception{
 		Map<String, Object> msg = new HashMap<String, Object>();
 		Order order = orderService.selectOrderByKey(orderId);
+		
 		if(order == null)
 		{
 			msg.put("msg","未查询到该订单");
 			return ResponseEntity.badRequest().body(msg);
 		}
+		Car car = carService.selectByPrimaryKey(order.getCarId());
 
 		order.setEndtime(info.getEndtime());
 		order.setRemark(info.getRemark());
@@ -156,6 +164,13 @@ public class OrderApi {
 		order.setPasscost(info.getParkcost());
 		order.setTrafcost(info.getTrafcost());
 		order.setParkcost(info.getParkcost());
+		
+		if(info.getEndtime()!= null)
+		{
+			GPSService gps = new GPSService();
+			Double distance = gps.getWayBillInfo(car.getCarNumber(), order.getStarttime(), order.getEndtime());
+			order.setDistance(distance);
+		}
 		
 		if(orderService.pendingForInspection(order))
 		{
@@ -190,6 +205,8 @@ public class OrderApi {
 			Map<String, String> extra = new HashMap<String, String>();
 			String content = "订单审核通过，目的地：" +order.getDest();
 			pushService.notifyWithExtra(order.getDriverId(), "订单审核通过", content, extra);
+			
+			//插入考勤数据
 			
 			msg.put("msg","成功");
 			return ResponseEntity.ok(msg);	
@@ -230,7 +247,7 @@ public class OrderApi {
 	public ResponseEntity<Map<String,Object>> modifyOrder(@RequestParam String access_token, 
 			@RequestParam Integer orderId,
 			@RequestBody ExtraInfoModel info,
-			Principal principal){
+			Principal principal) throws Exception{
 		Map<String, Object> msg = new HashMap<String, Object>();
 		Order order = orderService.selectOrderByKey(orderId);
 		if(order == null)
@@ -238,7 +255,13 @@ public class OrderApi {
 			msg.put("msg","未查询到该订单");
 			return ResponseEntity.badRequest().body(msg);
 		}
-		
+		Car car = carService.selectByPrimaryKey(order.getCarId());
+		if(info.getEndtime()!= null)
+		{
+			GPSService gps = new GPSService();
+			Double distance = gps.getWayBillInfo(car.getCarNumber(), order.getStarttime(), order.getEndtime());
+			order.setDistance(distance);
+		}
 		order.setEndtime(info.getEndtime());
 		order.setRemark(info.getRemark());
 		order.setExtras(info.getExtras());

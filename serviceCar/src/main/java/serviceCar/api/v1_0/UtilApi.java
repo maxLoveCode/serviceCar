@@ -1,6 +1,7 @@
 package serviceCar.api.v1_0;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import io.swagger.annotations.ApiOperation;
 import pojo.Car;
 import pojo.Department;
 import pojo.User;
+import serviceCar.service.GPSService;
 import serviceCar.service.UserService;
 import serviceCar.service.UtilService;
 
@@ -79,5 +81,5 @@ public class UtilApi {
 		}
 		msg.put("msg","未找到该用户");
 		return ResponseEntity.badRequest().body(msg);
-	} 
+	}
 }

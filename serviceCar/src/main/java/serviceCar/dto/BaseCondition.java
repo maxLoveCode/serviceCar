@@ -5,6 +5,7 @@ public class BaseCondition {
 	private int page;
 	private int rows;
 	private String keywords;
+	private String date;
 
 	public int getPage() {
 		return page;
@@ -28,6 +29,14 @@ public class BaseCondition {
 
 	public void setKeywords(String keywords) {
 		this.keywords = keywords;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 }

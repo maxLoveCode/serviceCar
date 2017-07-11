@@ -129,37 +129,38 @@
 		    	ON
 		    Od.car_id = CAR.id 
 		   	<if test="orderStatus != null">
-		   		
+		   		<where>
 		   		<if test="orderStatus == 1">
-			   		<where>
 			   			Od.order_status = 1
-			   		</where>
 		   		</if>
 		   		
 		   		<if test="orderStatus == 2">
-			   		<where>
 			   			Od.order_status = 2 OR 
 			   			Od.order_status = 3 OR
 			   			Od.order_status = 4 OR
 			   			Od.order_status = 5 OR
 			   			Od.order_status = 7 OR
-			   			Od.order_status = 8    
-			   		</where>                                                                           
+			   			Od.order_status = 8                                                              
 		   		</if>
 		   		
 		   		<if test="orderStatus == 3">
-			   		<where>
 			   			Od.order_status = 6
-			   		</where>
 		   		</if>
 		   		
 		   		<!-- 后台行政处待审核 -->
 		   		<if test="orderStatus == 5">
-			   		<where>
 			   			Od.order_status = 5
-			   		</where>
 		   		</if>
 		   		
+		   		
+		   		<if test="keywords != null">
+			   			And (DEPART.name like concat('%', #{keywords}, '%'))
+		   		</if>
+		   		
+		   		<if test="date != null">
+		   			AND YEAR(Od.starttime) = YEAR(STR_TO_DATE(#{date},'%Y-%m')) and MONTH(Od.starttime) =MONTH(STR_TO_DATE(#{date},'%Y-%m'))
+		   		</if>
+			   	</where>
 		   	</if>
 	</select>
 

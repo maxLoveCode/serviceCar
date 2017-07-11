@@ -68,11 +68,6 @@ public class IndexController extends BaseController {
 			return "login";
 		}
 		User admin = userService.findUserByUsername(username);
-		if (admin.getUsertype() != User.FINANCE && admin.getUsertype()!= User.SECRETARY)
-		{
-			model.addAttribute("error", "用户名不存在");
-			return "login";
-		}
 		
 		if (StringUtils.isEmpty(admin)) {
 			model.addAttribute("error", "用户名不存在");
@@ -82,7 +77,12 @@ public class IndexController extends BaseController {
 			model.addAttribute("error", "用户名或密码错误");
 			return "login";
 		}
-		
+
+		if (admin.getUsertype() != User.FINANCE && admin.getUsertype()!= User.SECRETARY)
+		{
+			model.addAttribute("error", "用户名不存在");
+			return "login";
+		}
 		//更新登录时间
 		admin.setLogintime(new Date());
 		userService.updateByPrimaryKey(admin);

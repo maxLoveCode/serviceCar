@@ -44,7 +44,7 @@ _menus = {
 								"menuname" : "已完成订单",
 								"icon" : "icon-nav",
 								"url" : "${pageContext.request.contextPath}"
-										+ "/order/reviewIndex"
+										+ "/order/statIndex"
 							}
 							 ]
 				} ]

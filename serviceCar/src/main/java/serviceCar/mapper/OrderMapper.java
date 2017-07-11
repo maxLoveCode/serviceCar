@@ -18,6 +18,8 @@ public interface OrderMapper extends MyMapper<Order>{
 	
 	public List<HashMap<String, Object>> getOrderList(@Param("orderStatus")Integer orderStatus);
 	
+	public List<HashMap<String, Object>> getOrderList(@Param("orderStatus")Integer orderStatus, @Param("keywords")String keywords, @Param("date")String date);
+	
 	public HashMap<String, Object> getOrderDetail(@Param("OrderId")Integer OrderId);
 	
 	public List<Department> getDepartmentList();

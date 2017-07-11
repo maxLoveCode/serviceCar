@@ -37,7 +37,7 @@ public class Order extends Base{
 	private Double trafcost;
 	private Double extras;
 	
-	private Float distance;
+	private Double distance;
 	
 	private String dest;
 	private String reason;
@@ -114,11 +114,11 @@ public class Order extends Base{
 		this.dest = dest;
 	}
 
-	public Float getDistance() {
+	public Double getDistance() {
 		return distance;
 	}
 
-	public void setDistance(Float distance) {
+	public void setDistance(Double distance) {
 		this.distance = distance;
 	}
 

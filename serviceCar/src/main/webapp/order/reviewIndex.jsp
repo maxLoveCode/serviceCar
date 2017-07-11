@@ -9,8 +9,7 @@
 </table>
 <!-- 工具栏 -->
 <div id="tb">
-   <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
-   <input class="easyui-searchbox" searcher="search" prompt="请输入关键字" name="keywords">
+   <input class="easyui-searchbox" id="sc" searcher="search" prompt="请输入关键字" name="keywords">
 </div>
 
 <div id="mm" class="easyui-menu" style="width:150px;">
@@ -27,7 +26,7 @@
 							url : "${pageContext.request.contextPath}"
 									+ '/order/reviewList',
 							toolbar : '#toolbar',
-                    		onRowContextMenu: onRowContextMenu,
+                            onRowContextMenu: onRowContextMenu,
 							columns : [ [
 									{
 										field : 'id',
@@ -162,8 +161,24 @@
                                 }] ]
 						});
 	});
-
-
+	
+	    function formatter2(date){
+            if (!date){return '';}
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            return y + '-' + (m<10?('0'+m):m);
+        }
+       function parser2(s){
+            if (!s){return null;}
+            var ss = s.split('-');
+            var y = parseInt(ss[0],10);
+            var m = parseInt(ss[1],10);
+            if (!isNaN(y) && !isNaN(m)){
+                return new Date(y,m-1,1);
+            } else {
+                return new Date();
+            }
+        }
     function search(value,name){
      $('#dg').datagrid('reload',{'keywords':value});
     }

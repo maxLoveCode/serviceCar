@@ -130,7 +130,12 @@ public class OrderService extends BaseService<Order> {
 	
 	public List<HashMap<String, Object>> getOrderList(Integer orderStatus)
 	{
-		return orderMapper.getOrderList(orderStatus);
+		return orderMapper.getOrderList(orderStatus,null,null);
+	}
+	
+	public List<HashMap<String, Object>> getOrderList(Integer orderStatus,String keywords,String date)
+	{
+		return orderMapper.getOrderList(orderStatus,keywords,date);
 	}
 	
 	public HashMap<String, Object> getOrderDetail(Integer OrderId)

@@ -38,6 +38,11 @@ public class OrderController extends BaseController{
 		return "order/reviewIndex";
 	}
 	
+	@RequestMapping(value = "/statIndex", method = RequestMethod.GET)
+	public String statIndex() {
+		return "order/statIndex";
+	}
+	
 	/**
 	 * 获得列表数据
 	 * 
@@ -48,7 +53,7 @@ public class OrderController extends BaseController{
 	@RequestMapping(value = "/list")
 	public Map<String,Object> list(BaseCondition condition) {
 		Page<User> pager = PageHelper.startPage(condition.getPage(), condition.getRows());// 分页类
-		List<HashMap<String, Object>> list = orderService.getOrderList(null);
+		List<HashMap<String, Object>> list = orderService.getOrderList(null,condition.getKeywords(),null);
 		Map<String,Object> result = new HashMap<String, Object>();
 		result.put("total", pager.getTotal());
 		result.put("rows", list);
@@ -65,16 +70,18 @@ public class OrderController extends BaseController{
 	@RequestMapping(value = "/reviewList")
 	public Map<String,Object> reviewList(BaseCondition condition, HttpSession session) {
 		Page<User> pager = PageHelper.startPage(condition.getPage(), condition.getRows());// 分页类
+		System.out.println(condition.getKeywords());
+		System.out.println(condition.getDate());
 		Integer userType = (Integer) session.getAttribute(SESSION_TYPE);
 		System.out.println("userType"+userType);
 		List<HashMap<String, Object>> list = null;
 		if(userType == User.SECRETARY)
 		{
-			list = orderService.getOrderList(5);
+			list = orderService.getOrderList(5,condition.getKeywords(),null);
 		}
 		else
 		{
-			list = orderService.getOrderList(3);
+			list = orderService.getOrderList(3,condition.getKeywords(),condition.getDate());
 		}
 		Map<String,Object> result = new HashMap<String, Object>();
 		result.put("total", pager.getTotal());

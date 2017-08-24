@@ -9,6 +9,7 @@
 	<resultMap type="pojo.User" id="User">
 	  <id property="id" column="Driver_id"/>
 	  <result property="username" column="Driver_username"/>
+	  <result property="nickname" column="Driver_nickname"/>
 	  <result property="usertype" column="Driver_usertype"/>
 	  <result property="logintime" column="Driver_logintime"/>
 	  <result property="createtime" column="Driver_createtime"/>
@@ -33,6 +34,7 @@
   		<result property="reason" column="Order_reason"/>
   		<result property="unitPrice" column="Order_unit_price"/>
   		<result property="dest" column="Order_dest"/>
+  		<result property="orig" column="Order_orig"/>
   		<result property="distance" column="Order_distance"/>
   		<result property="total" column="Order_total"/>
   		
@@ -83,6 +85,7 @@
 		    Driver.id AS Driver_id,
 		    Driver.createtime AS Driver_createtime,
 		    Driver.username AS Driver_username,
+		    Driver.nickname AS Driver_nickname,
 		    Driver.usertype AS Driver_usertype,
 		    Driver.logintime AS Driver_logintime,
 		    Od.id AS Order_id,
@@ -100,6 +103,7 @@
 		    Od.createtime AS Order_createtime,
 		    Od.updatetime AS Order_updatetime,
 		    Od.dest AS Order_dest,
+		    Od.orig AS Order_orig,
 		    Od.reason AS Order_reason,
 		    Od.updatetime AS Order_updatetime,
 		    DEPART.id AS Department_id,
@@ -186,6 +190,7 @@
 		    Od.createtime AS Order_createtime,
 		    Od.updatetime AS Order_updatetime,
 		    Od.dest AS Order_dest,
+		    Od.orig AS Order_orig,
 		    Od.reason AS Order_reason,
 		    Od.updatetime AS Order_updatetime,
 		    DEPART.id AS Department_id,

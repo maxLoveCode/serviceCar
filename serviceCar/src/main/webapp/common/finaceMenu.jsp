@@ -45,6 +45,12 @@ _menus = {
 								"icon" : "icon-nav",
 								"url" : "${pageContext.request.contextPath}"
 										+ "/order/statIndex"
+							},
+							{
+								"menuname" : "司机出勤",
+								"icon" : "icon-nav",
+								"url" : "${pageContext.request.contextPath}"
+										+ "/user/attendenceIndex"
 							}
 							 ]
 				} ]

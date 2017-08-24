@@ -42,4 +42,8 @@ public class UserService extends BaseService<User>{
 	{
 		return userMapper.updateByPrimaryKeySelective(user);
 	}
+
+	public List<HashMap<String, Object>> getAttendenceList() {
+		return userMapper.getAttendenceList();
+	}
 }

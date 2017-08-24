@@ -31,6 +31,7 @@
 		SELECT 
 		    User.id AS id,
 		    username,
+		    nickname,
 		    createtime,
 		    updatetime,
 		    typename,
@@ -67,4 +68,20 @@
 	  insert into sc_notify (createtime,updatetime,title,content,rec_id)
 	  values(#{createtime},#{updatetime},#{title},#{content},#{recId})
   	</insert>
+  	
+  	<select id="getAttendenceList" resultType="hashmap">
+		SELECT 
+		    OT.id, ROUND(OT.morningExtra,2) as morningExtra, ROUND(OT.eveningExtra,2) as eveningExtra, 
+		    ROUND((OT.morningExtra+OT.eveningExtra),2) as totalHours,
+		    OD.id as orderId, OD.dest, OD.starttime, OD.endtime, 
+		    CAR.car_number AS number, DR.id as driverId, DR.username as contact, DR.nickname as nickname 
+		FROM
+		    sc_overtime OT
+		        LEFT JOIN
+		    sc_order OD ON OT.order_id = OD.id
+		        LEFT JOIN
+		    sc_user DR ON OT.driver_id = DR.id
+		        LEFT JOIN
+		    sc_car CAR ON CAR.id = OD.car_id
+  	</select>
 </mapper>

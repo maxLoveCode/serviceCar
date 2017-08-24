@@ -23,4 +23,6 @@ public interface UserMapper extends MyMapper<User> {
 	public List<Notify> getNotify(Integer userId);
 	
 	public Integer insertNotify(Notify notify);
+
+	public List<HashMap<String, Object>> getAttendenceList();
 }

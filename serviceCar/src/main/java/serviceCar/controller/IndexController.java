@@ -78,7 +78,7 @@ public class IndexController extends BaseController {
 			return "login";
 		}
 
-		if (admin.getUsertype() != User.FINANCE && admin.getUsertype()!= User.SECRETARY)
+		if (admin.getUsertype() != User.FINANCE && admin.getUsertype()!= User.SECRETARY && admin.getUsertype() != User.MANAGEMENT)
 		{
 			model.addAttribute("error", "用户名不存在");
 			return "login";

@@ -1,5 +1,6 @@
 package serviceCar.controller;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,19 +8,26 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+
+import io.swagger.annotations.ApiOperation;
 import pojo.Order;
 
 import pojo.User;
 import serviceCar.dto.BaseCondition;
 import serviceCar.dto.Message;
+import serviceCar.service.JpushService;
 import serviceCar.service.OrderService;
+import serviceCar.service.UserService;
 
 @Controller
 @RequestMapping("/order")
@@ -27,6 +35,10 @@ public class OrderController extends BaseController{
 
 	@Autowired
 	OrderService orderService;
+	@Autowired
+	UserService userService;
+	@Autowired
+	JpushService pushService;
 	
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index() {
@@ -98,5 +110,18 @@ public class OrderController extends BaseController{
 			return successMessage();
 		else
 			return failMessage("订单状态"+order.getOrderStatus());
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/placeOrder", method = RequestMethod.POST)
+	public Message placeOrder(@RequestBody Order order){
+		
+		orderService.placeOrder(order);
+		
+		Map<String, String> extra = new HashMap<String, String>();
+		String content = "您被安排了订单，目的地：" +order.getDest();
+		pushService.notifyWithExtra(order.getDriverId(), "您被安排了一个新订单", content, extra);
+
+		return successMessage();
 	}
 }

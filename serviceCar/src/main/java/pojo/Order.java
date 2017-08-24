@@ -40,6 +40,8 @@ public class Order extends Base{
 	private Double distance;
 	
 	private String dest;
+	private String orig;
+	
 	private String reason;
 	
 	@Column(name = "order_status")
@@ -184,5 +186,13 @@ public class Order extends Base{
 
 	public void setOwnerId(Integer ownerId) {
 		this.ownerId = ownerId;
+	}
+
+	public String getOrig() {
+		return orig;
+	}
+
+	public void setOrig(String orig) {
+		this.orig = orig;
 	}
 }

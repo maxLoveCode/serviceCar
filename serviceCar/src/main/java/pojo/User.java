@@ -2,7 +2,6 @@ package pojo;
 
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Table;
 
 @Table(name = "sc_user")
@@ -13,6 +12,7 @@ public class User extends Base {
 	public static final Integer MANAGEMENT = 4;
 
 	private String username;
+	private String nickname;
 	private String password;
 	private Date logintime;
 
@@ -47,5 +47,13 @@ public class User extends Base {
 
 	public void setUsertype(Integer usertype) {
 		this.usertype = usertype;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 }

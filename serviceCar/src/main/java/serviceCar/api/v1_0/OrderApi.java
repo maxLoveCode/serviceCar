@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import serviceCar.service.OrderService;
+import serviceCar.service.AttendenceService;
 import serviceCar.service.CarService;
 import serviceCar.service.GPSService;
 import serviceCar.service.JpushService;
@@ -41,6 +42,9 @@ public class OrderApi {
 	@Autowired
 	CarService carService;
 	
+	@Autowired
+	AttendenceService attendenceService;
+	
 	@ApiOperation(value = "创建订单", notes = "创建订单")
 	@RequestMapping(value = "/placeOrder", method = RequestMethod.POST)
 	public ResponseEntity<Map<String,Object>> placeOrder(@RequestParam String access_token,
@@ -59,7 +63,7 @@ public class OrderApi {
 		
 		Map<String, String> extra = new HashMap<String, String>();
 		String content = "您被安排了订单，目的地：" +order.getDest();
-		pushService.notifyWithExtra(order.getDriverId(), "您被安排了一个新订单，点击查看", content, extra);
+		pushService.notifyWithExtra(order.getDriverId(), "您被安排了一个新订单", content, extra);
 		
 		msg.put("msg","成功");
 		return ResponseEntity.ok(msg);	
@@ -207,6 +211,7 @@ public class OrderApi {
 			pushService.notifyWithExtra(order.getDriverId(), "订单审核通过", content, extra);
 			
 			//插入考勤数据
+			attendenceService.extraAttdCheck(order); 
 			
 			msg.put("msg","成功");
 			return ResponseEntity.ok(msg);	
@@ -307,5 +312,23 @@ public class OrderApi {
 			msg.put("msg","订单状态有误：2000"+order.getOrderStatus());
 			return ResponseEntity.badRequest().body(msg);
 		}
+	}
+	
+	@ApiOperation(value = "财务处查阅完毕", notes = "财务处查阅完毕")
+	@RequestMapping(value = "/test", method = RequestMethod.PUT)
+	public ResponseEntity<Map<String,Object>> test(@RequestParam String access_token, 
+			@RequestParam Integer orderId,
+			Principal principal){
+		Map<String, Object> msg = new HashMap<String, Object>();
+		Order order = orderService.selectOrderByKey(orderId);
+		attendenceService.extraAttdCheck(order);
+		if(order == null)
+		{
+			msg.put("msg","未查询到该订单");
+			return ResponseEntity.badRequest().body(msg);
+		}
+	
+			msg.put("msg","成功");
+			return ResponseEntity.ok(msg);	
 	}
 }

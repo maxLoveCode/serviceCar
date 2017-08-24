@@ -101,4 +101,26 @@ public class UserController extends BaseController {
 		userService.deleteByPrimaryKey(dest.getId());
 		return successMessage();
 	}
+	
+	@RequestMapping(value = "/attendenceIndex", method = RequestMethod.GET)
+	public String attendenceIndex() {
+		return "user/attendenceIndex";
+	}
+	
+	/**
+	 * 获得列表数据
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/attendenceList")
+	public Map<String,Object> attendenceList(BaseCondition condition) {
+		Page<User> pager = PageHelper.startPage(condition.getPage(), condition.getRows());// 分页类
+		List<HashMap<String, Object>> list = userService.getAttendenceList();
+		Map<String,Object> result = new HashMap<String, Object>();
+		result.put("total", pager.getTotal());
+		result.put("rows", list);
+		return result;
+	}
 }

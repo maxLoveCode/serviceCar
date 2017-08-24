@@ -191,7 +191,7 @@
 											src="${pageContext.request.contextPath}/static/images/340.gif"
 											width="16" height="16" /></td>
 										<td class="qy_topk2px" colspan="2">&nbsp;用户名：<span
-											class="qy_lsfont">${admin.username }</span> &nbsp;&nbsp</span>&nbsp;&nbsp;登陆时间：<fmt:formatDate
+											class="qy_lsfont">${admin.nickname }</span> &nbsp;&nbsp</span>&nbsp;&nbsp;登陆时间：<fmt:formatDate
 												value="${admin.logintime }" pattern="yyyy-MM-dd HH:mm:ss" />
 											<span style="color: red"></span>
 										</td>

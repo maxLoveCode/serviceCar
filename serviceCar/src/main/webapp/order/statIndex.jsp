@@ -9,6 +9,7 @@
 </table>
 <!-- 工具栏 -->
 <div id="tb">
+	<input class="easyui-datetimespinner" id="ds" data-options="label:'选择月:',labelPosition:'left',formatter:formatter2,parser:parser2,selections:[[0,4],[5,7]],highlight:1" style="width:200px;">
    <input class="easyui-searchbox" id="sc" searcher="search" prompt="请输入关键字" name="keywords">
 </div>
 
@@ -26,7 +27,6 @@
 							url : "${pageContext.request.contextPath}"
 									+ '/order/reviewList',
 							toolbar : '#toolbar',
-                            onRowContextMenu: onRowContextMenu,
 							columns : [ [
 									{
 										field : 'id',
@@ -186,7 +186,8 @@
             }
         }
     function search(value,name){
-     $('#dg').datagrid('reload',{'keywords':value});
+    	var date =  $('#ds').datetimespinner('getValue');
+     $('#dg').datagrid('reload',{'keywords':value,'date':date});
     }
  
 
@@ -221,6 +222,16 @@
    	        top: e.pageY
    	    });
    	}
+   	
+   	$('#ds').datetimespinner({
+   		onSpinUp:function(){
+   			search($('#sc').searchbox('getValue'),null);
+   		},
+   		onSpinDown:function(){
+   			search($('#sc').searchbox('getValue'),null);
+   		}
+   		
+   	})
    	
    $('#mm').menu({
    	    onClick:function(item){

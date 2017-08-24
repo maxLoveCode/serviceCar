@@ -3,7 +3,7 @@
 <!-- 引入头 -->
 <%@ include file="/common/header.jsp" %>
 <!-- 数据表 -->
-<table id="dg" class="easyui-datagrid" data-options="fit:true,pagination:true,singleSelect:true,url:'${pageContext.request.contextPath}'+'/user/list',method:'get',toolbar:'#tb'">
+<table id="dg" class="easyui-datagrid" data-options="fit:true,pagination:true,singleSelect:true,url:'${pageContext.request.contextPath}'+'/user/attendenceList',method:'get',toolbar:'#tb'">
    
 </table>
 <!-- 工具栏 -->
@@ -25,10 +25,6 @@
          <label>密码:</label>
          <input name="password" class="easyui-validatebox" required="true">
       </div>
-      <div class="fitem">
-         <label>昵称:</label>
-         <input name="nickname" class="easyui-validatebox" required="true">
-      </div>
     	<div class="fitem">
 			<label>类型:</label> <input id="cc" class="easyui-combobox" name="usertype"
     			data-options="valueField:'id',textField:'typename',url:'${pageContext.request.contextPath}'+'/util/typeList'">
@@ -48,10 +44,6 @@
          <label>用户名:</label>
          <input name="id" type="hidden">
          <input name="username" class="easyui-validatebox" required="true">
-      </div>
-      <div class="fitem">
-         <label>昵称:</label>
-         <input name="nickname" class="easyui-validatebox" required="true">
       </div>
       <div class="fitem">
 			<label>类型:</label> <input id="cc" class="easyui-combobox" name="usertype"
@@ -79,31 +71,101 @@
 							columns : [ [
 									{
 										field : 'id',
-										title : '用户id',
+										title : 'id',
+										width : 100,
+										align : 'right',
+                                   		rowspan: 2
+									},
+									{
+										title : '司机车辆信息',
+										width : 100,
+	                                    colspan: 4
+									},
+									{
+										title : '订单信息',
+										width : 180,
+	                                    colspan: 5
+									},
+									{
+										title : '加班信息',
+										width : 180,
+	                                    colspan: 3
+									}],
+									[
+									{
+										field : 'driverId',
+										title : '司机id',
+										width : 100,
+										align : 'right'
+									},{
+										field : 'nickname',
+										title : '司机id',
 										width : 100,
 										align : 'right'
 									},
 									{
-										field : 'username',
-										title : '用户名',
-										width : 100
+										field : 'contact',
+										title : '司机联系方式',
+										width : 100,
+										align : 'right'
 									},
 									{
-										field : 'nickname',
-										title : '昵称',
-										width : 100
+										field : 'number',
+										title : '车牌号',
+										width : 100,
+										align : 'right'
 									},
 									{
-										field : 'createtime',
-										title : '创建日期',
+										field : 'orderId',
+										title : '订单id',
+										width : 100,
+										align : 'right'
+									},
+									{
+										field : 'dest',
+										title : '出发地',
+										width : 180,
+										align : 'right'
+									},
+									{
+										field : 'dest',
+										title : '目的地',
+										width : 180,
+										align : 'right'
+									},
+									{
+										field : 'starttime',
+										title : '出发时间',
 										formatter : formatDate,
-										width : 180
+										width : 150,
+										align : 'right'
 									},
 									{
-										field : 'typename',
-										title : '用户类型',
-										width : 180
-									}]]
+										field : 'endtime',
+										title : '返回时间',
+										formatter : formatDate,
+										width : 150,
+										align : 'right'
+									},
+									{
+										field : 'morningExtra',
+										title : '上午加班时间',
+										width : 100,
+										align : 'right'
+									},
+									{
+										field : 'eveningExtra',
+										title : '下午加班时间',
+										width : 100,
+										align : 'right'
+									},
+									{
+										field : 'totalHours',
+										title : '总时间',
+										width : 100,
+										align : 'right'
+									}]
+									]
    		})
    		})
    			
